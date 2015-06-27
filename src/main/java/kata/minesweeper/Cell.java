@@ -1,15 +1,18 @@
 package kata.minesweeper;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by alec on 27/06/15.
  */
 public class Cell {
     private final String value;
-    private final int row;
-    private final int column;
+    private RowOrColumn row;
+    private RowOrColumn column;
 
 
-    public Cell(String value, int row, int column) {
+    public Cell(String value, RowOrColumn row, RowOrColumn column) {
         this.value = value;
         this.row = row;
         this.column = column;
@@ -19,11 +22,47 @@ public class Cell {
         return "*".equals(value);
     }
 
-    public int getRow() {
+    public RowOrColumn getRow() {
         return row;
     }
 
-    public int getColumn() {
+    public RowOrColumn getColumn() {
         return column;
+    }
+
+    @Override
+    public String toString() {
+        if (isMine()) {
+            return "*";
+        }
+        return Integer.toString(countNumberOfNeighbouringMines());
+    }
+
+    private int countNumberOfNeighbouringMines() {
+
+        Set<Cell> allCellsInNeighbouringRows = new HashSet<>();
+        allCellsInNeighbouringRows.addAll(getRow().getCells());
+        allCellsInNeighbouringRows.addAll(getRow().getPrevious().getCells());
+        allCellsInNeighbouringRows.addAll(getRow().getNext().getCells());
+
+
+        Set<Cell> allCellsInNeighbouringColumns = new HashSet<>();
+        allCellsInNeighbouringColumns.addAll(getColumn().getCells());
+        allCellsInNeighbouringColumns.addAll(getColumn().getPrevious().getCells());
+        allCellsInNeighbouringColumns.addAll(getColumn().getNext().getCells());
+
+        Set<Cell> neighbours = new HashSet<>(allCellsInNeighbouringRows);
+        neighbours.retainAll(allCellsInNeighbouringColumns);
+
+        int neighbourCount = 0;
+        for(Cell neighbour:neighbours){
+            if(neighbour.isMine()){
+                neighbourCount++;
+            }
+        }
+        if(isMine()){
+            neighbourCount--;
+        }
+        return neighbourCount;
     }
 }

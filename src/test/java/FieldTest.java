@@ -14,19 +14,19 @@ import static org.junit.Assert.*;
 public class FieldTest {
     @Test
     public void dotIsNotAMine(){
-        Cell cell = new Cell(".",0,0);
+        Cell cell = new Cell(".", null, null);
         assertThat(cell.isMine(),equalTo(false));
 
     }
 
     @Test public void asteriskDenotesAMine() {
-        Cell cell = new Cell("*",0,0);
+        Cell cell = new Cell("*", null, null);
         assertThat(cell.isMine(), equalTo(true));
     }
 
     @Test
     public void aFieldOfTwoEmptyCellsDisplaysCorrectly() {
-        Field field = new Field();
+        Field field = new Field(2);
         field.addRow("..");
         assertThat(field.toString(), equalTo("00%n"));
 
@@ -34,14 +34,14 @@ public class FieldTest {
 
     @Test
     public void aFieldOfOneMineAndOneEmptyCellDisplaysCorrectly(){
-        Field field = new Field();
+        Field field = new Field(2);
         field.addRow("*.");
         assertThat(field.toString(), equalTo("*1%n"));
     }
 
     @Test
     public void aFieldOfTwoRowsWithOneMineDisplaysCorrectly(){
-        Field field = new Field();
+        Field field = new Field(2);
         field.addRow("*.");
         field.addRow("..");
         assertThat(field.toString(), equalTo("*1%n11%n"));
@@ -49,7 +49,7 @@ public class FieldTest {
 
     @Test
     public void acceptanceTest1(){
-        Field field = new Field();
+        Field field = new Field(4);
         field.addRow("*...");
         field.addRow("....");
         field.addRow(".*..");
@@ -59,7 +59,7 @@ public class FieldTest {
 
     @Test
     public void acceptanceTest2(){
-        Field field = new Field();
+        Field field = new Field(5);
         field.addRow("**...");
         field.addRow(".....");
         field.addRow(".*...");
