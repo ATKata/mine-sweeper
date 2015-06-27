@@ -26,44 +26,44 @@ public class FieldTest {
 
     @Test
     public void aFieldOfTwoEmptyCellsDisplaysCorrectly() {
-        Field field = new Field(2);
+        Field field = new Field(1,2);
         field.addRow("..");
-        assertThat(field.toString(), equalTo("00%n"));
+        assertThat(field.print(), equalTo("00%n"));
 
     }
 
     @Test
     public void aFieldOfOneMineAndOneEmptyCellDisplaysCorrectly(){
-        Field field = new Field(2);
+        Field field = new Field(1,2);
         field.addRow("*.");
-        assertThat(field.toString(), equalTo("*1%n"));
+        assertThat(field.print(), equalTo("*1%n"));
     }
 
     @Test
     public void aFieldOfTwoRowsWithOneMineDisplaysCorrectly(){
-        Field field = new Field(2);
+        Field field = new Field(2,2);
         field.addRow("*.");
         field.addRow("..");
-        assertThat(field.toString(), equalTo("*1%n11%n"));
+        assertThat(field.print(), equalTo("*1%n11%n"));
     }
 
     @Test
     public void acceptanceTest1(){
-        Field field = new Field(4);
+        Field field = new Field(4,4);
         field.addRow("*...");
         field.addRow("....");
         field.addRow(".*..");
         field.addRow("....");
-        assertThat(field.toString(), equalTo("*100%n2210%n1*10%n1110%n"));
+        assertThat(field.print(), equalTo("*100%n2210%n1*10%n1110%n"));
     }
 
     @Test
     public void acceptanceTest2(){
-        Field field = new Field(5);
+        Field field = new Field(3,5);
         field.addRow("**...");
         field.addRow(".....");
         field.addRow(".*...");
-        assertThat(field.toString(), equalTo("**100%n33200%n1*100%n"));
+        assertThat(field.print(), equalTo("**100%n33200%n1*100%n"));
     }
 
 

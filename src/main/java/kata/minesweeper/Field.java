@@ -1,28 +1,29 @@
 package kata.minesweeper;
 
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 /**
  * Created by alec on 27/06/15.
  */
 public class Field {
+    private final int numberOfRows;
     private final int numberOfColumns;
     private LinkedList<RowOrColumn> rows;
     private LinkedList<RowOrColumn> columns;
 
-    public Field(int numberOfColumns) {
+    public Field(int numberOfRows, int numberOfColumns) {
+        this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         rows = new LinkedList<>();
-        rows.add(new NullRowOrColumn(null));
+        rows.add(new NullRowOrColumn());
 
         columns = new LinkedList<>();
-        columns.add(new NullRowOrColumn(null));
+        columns.add(new NullRowOrColumn());
 
         for (int i = 0; i < numberOfColumns; i++) {
             columns.add(new RowOrColumn(columns.getLast()));
         }
+        columns.add(new NullRowOrColumn(columns.getLast()));
     }
 
     public void addRow(String input) {
@@ -31,7 +32,7 @@ public class Field {
         }
         RowOrColumn row = new RowOrColumn(rows.getLast());
         // we have to skip the first null column - nasty
-        RowOrColumn column = columns.getFirst().getNext();
+        RowOrColumn column = columns.get(1);
         for (Character character:input.toCharArray()) {
             Cell cell = new Cell(Character.toString(character), row, column);
             row.add(cell);
@@ -39,13 +40,17 @@ public class Field {
             column = column.getNext();
         }
         rows.add(row);
+
+        if(rows.size()==numberOfRows+1){
+            rows.add(new NullRowOrColumn(rows.getLast()));
+        }
     }
 
-    @Override
-    public String toString() {
+    public String print() {
+
         StringBuilder result = new StringBuilder();
         for (RowOrColumn row : rows) {
-            result.append(row.toString());
+            result.append(row.print());
         }
         return result.toString();
     }

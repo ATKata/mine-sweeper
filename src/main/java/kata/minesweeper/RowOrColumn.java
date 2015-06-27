@@ -1,7 +1,5 @@
 package kata.minesweeper;
 
-import com.sun.rowset.internal.Row;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +11,15 @@ public class RowOrColumn {
     private RowOrColumn previous;
     private RowOrColumn next;
 
-    public RowOrColumn(RowOrColumn previous) {
-        this.previous = previous;
-        if (previous != null) {
-            previous.setNext(this);
-        }
+    protected RowOrColumn(){
         cells = new ArrayList<>();
+    }
+
+    public RowOrColumn(RowOrColumn previous) {
+        this();
+        this.previous = previous;
+        previous.setNext(this);
+
     }
 
     public void add(Cell cell) {
@@ -30,16 +31,10 @@ public class RowOrColumn {
     }
 
     public RowOrColumn getPrevious() {
-        if (previous == null) {
-            return new NullRowOrColumn(null);
-        }
         return previous;
     }
 
     public RowOrColumn getNext() {
-        if (next == null) {
-            return new NullRowOrColumn(null);
-        }
         return next;
     }
 
@@ -47,11 +42,10 @@ public class RowOrColumn {
         this.next = next;
     }
 
-    @Override
-    public String toString() {
+    public String print() {
         StringBuilder result = new StringBuilder();
         for (Cell cell : cells) {
-            result.append(cell.toString());
+            result.append(cell.print());
         }
         result.append("%n");
         return result.toString();

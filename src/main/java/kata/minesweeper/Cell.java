@@ -30,8 +30,7 @@ public class Cell {
         return column;
     }
 
-    @Override
-    public String toString() {
+    public String print() {
         if (isMine()) {
             return "*";
         }

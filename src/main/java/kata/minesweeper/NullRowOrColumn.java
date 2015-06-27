@@ -8,12 +8,26 @@ import java.util.List;
  */
 public class NullRowOrColumn extends RowOrColumn {
 
+    public NullRowOrColumn() {
+    }
+
     public NullRowOrColumn(RowOrColumn previous) {
         super(previous);
     }
 
-    @Override
-    public String toString() {
+    public String print() {
         return "";
     }
+
+    @Override
+    public RowOrColumn getPrevious() {
+        return new NullRowOrColumn();
+    }
+
+    @Override
+    public RowOrColumn getNext() {
+        return new NullRowOrColumn();
+    }
+
+
 }
