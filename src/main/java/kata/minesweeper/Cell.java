@@ -7,32 +7,25 @@ import java.util.Set;
  * Created by alec on 27/06/15.
  */
 public class Cell {
+    private static final String ASTERISK = "*";
     private final String value;
-    private RowOrColumn row;
-    private RowOrColumn column;
+    private final CellList row;
+    private final CellList column;
 
 
-    public Cell(String value, RowOrColumn row, RowOrColumn column) {
+    public Cell(String value, CellList row, CellList column) {
         this.value = value;
         this.row = row;
         this.column = column;
     }
 
     public boolean isMine() {
-        return "*".equals(value);
-    }
-
-    public RowOrColumn getRow() {
-        return row;
-    }
-
-    public RowOrColumn getColumn() {
-        return column;
+        return ASTERISK.equals(value);
     }
 
     public String print() {
         if (isMine()) {
-            return "*";
+            return ASTERISK;
         }
         return Integer.toString(countNumberOfNeighbouringMines());
     }
@@ -40,15 +33,15 @@ public class Cell {
     private int countNumberOfNeighbouringMines() {
 
         Set<Cell> allCellsInNeighbouringRows = new HashSet<>();
-        allCellsInNeighbouringRows.addAll(getRow().getCells());
-        allCellsInNeighbouringRows.addAll(getRow().getPrevious().getCells());
-        allCellsInNeighbouringRows.addAll(getRow().getNext().getCells());
+        allCellsInNeighbouringRows.addAll(row.getCells());
+        allCellsInNeighbouringRows.addAll(row.getPrevious().getCells());
+        allCellsInNeighbouringRows.addAll(row.getNext().getCells());
 
 
         Set<Cell> allCellsInNeighbouringColumns = new HashSet<>();
-        allCellsInNeighbouringColumns.addAll(getColumn().getCells());
-        allCellsInNeighbouringColumns.addAll(getColumn().getPrevious().getCells());
-        allCellsInNeighbouringColumns.addAll(getColumn().getNext().getCells());
+        allCellsInNeighbouringColumns.addAll(column.getCells());
+        allCellsInNeighbouringColumns.addAll(column.getPrevious().getCells());
+        allCellsInNeighbouringColumns.addAll(column.getNext().getCells());
 
         Set<Cell> neighbours = new HashSet<>(allCellsInNeighbouringRows);
         neighbours.retainAll(allCellsInNeighbouringColumns);

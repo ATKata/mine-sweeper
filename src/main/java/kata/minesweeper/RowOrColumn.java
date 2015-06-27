@@ -6,48 +6,50 @@ import java.util.List;
 /**
  * Created by alec on 27/06/15.
  */
-public class RowOrColumn {
-    List<Cell> cells;
-    private RowOrColumn previous;
-    private RowOrColumn next;
+public class RowOrColumn implements CellList {
+    private List<Cell> cells;
+    private final CellList previous;
+    private CellList next;
 
-    protected RowOrColumn(){
+    public RowOrColumn(CellList previous) {
         cells = new ArrayList<>();
-    }
-
-    public RowOrColumn(RowOrColumn previous) {
-        this();
         this.previous = previous;
         previous.setNext(this);
-
+        this.next = new NullRowOrColumn();
     }
 
+    @Override
     public void add(Cell cell) {
         cells.add(cell);
     }
 
+    @Override
     public List<Cell> getCells() {
         return cells;
     }
 
-    public RowOrColumn getPrevious() {
+    @Override
+    public CellList getPrevious() {
         return previous;
     }
 
-    public RowOrColumn getNext() {
+    @Override
+    public CellList getNext() {
         return next;
     }
 
-    public void setNext(RowOrColumn next) {
-        this.next = next;
-    }
-
-    public String print() {
+    @Override
+    public String toString() {
         StringBuilder result = new StringBuilder();
         for (Cell cell : cells) {
             result.append(cell.print());
         }
         result.append("%n");
         return result.toString();
+    }
+
+    @Override
+    public void setNext(CellList next) {
+        this.next = next;
     }
 }

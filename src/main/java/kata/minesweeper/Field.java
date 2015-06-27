@@ -6,33 +6,21 @@ import java.util.LinkedList;
  * Created by alec on 27/06/15.
  */
 public class Field {
-    private final int numberOfRows;
-    private final int numberOfColumns;
-    private LinkedList<RowOrColumn> rows;
-    private LinkedList<RowOrColumn> columns;
+    private LinkedList<CellList> rows;
+    private LinkedList<CellList> columns;
 
-    public Field(int numberOfRows, int numberOfColumns) {
-        this.numberOfRows = numberOfRows;
-        this.numberOfColumns = numberOfColumns;
+    public Field(int numberOfColumns) {
         rows = new LinkedList<>();
-        rows.add(new NullRowOrColumn());
 
         columns = new LinkedList<>();
-        columns.add(new NullRowOrColumn());
-
         for (int i = 0; i < numberOfColumns; i++) {
-            columns.add(new RowOrColumn(columns.getLast()));
+            columns.add(new RowOrColumn(getLastColumn()));
         }
-        columns.add(new NullRowOrColumn(columns.getLast()));
     }
 
     public void addRow(String input) {
-        if (input.length() != numberOfColumns) {
-            throw new IllegalArgumentException("Input string length does not match number of columns.");
-        }
-        RowOrColumn row = new RowOrColumn(rows.getLast());
-        // we have to skip the first null column - nasty
-        RowOrColumn column = columns.get(1);
+        CellList row = new RowOrColumn(getLastRow());
+        CellList column = columns.getFirst();
         for (Character character:input.toCharArray()) {
             Cell cell = new Cell(Character.toString(character), row, column);
             row.add(cell);
@@ -40,22 +28,27 @@ public class Field {
             column = column.getNext();
         }
         rows.add(row);
-
-        if(rows.size()==numberOfRows+1){
-            rows.add(new NullRowOrColumn(rows.getLast()));
-        }
     }
 
     public String print() {
-
         StringBuilder result = new StringBuilder();
-        for (RowOrColumn row : rows) {
-            result.append(row.print());
+        for (CellList row : rows) {
+            result.append(row.toString());
         }
         return result.toString();
     }
 
+    private CellList getLastColumn() {
+        if( columns.isEmpty() ){
+            return new NullRowOrColumn();
+        }
+        return columns.getLast();
+    }
 
-
-
+    private CellList getLastRow() {
+        if( rows.isEmpty() ){
+            return new NullRowOrColumn();
+        }
+        return rows.getLast();
+    }
 }

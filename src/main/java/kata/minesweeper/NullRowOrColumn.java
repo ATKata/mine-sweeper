@@ -1,31 +1,43 @@
 package kata.minesweeper;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by alec on 27/06/15.
  */
-public class NullRowOrColumn extends RowOrColumn {
+public class NullRowOrColumn implements CellList {
 
     public NullRowOrColumn() {
     }
 
-    public NullRowOrColumn(RowOrColumn previous) {
-        super(previous);
-    }
-
-    public String print() {
+    @Override
+    public String toString() {
         return "";
     }
 
     @Override
-    public RowOrColumn getPrevious() {
-        return new NullRowOrColumn();
+    public void setNext(CellList next) {
+
     }
 
     @Override
-    public RowOrColumn getNext() {
+    public Collection<? extends Cell> getCells() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public CellList getPrevious() {
+        return new NullRowOrColumn();
+    }
+
+
+    @Override
+    public void add(Cell cell) {
+
+    }
+
+    public CellList getNext() {
         return new NullRowOrColumn();
     }
 
