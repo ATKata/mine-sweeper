@@ -18,6 +18,10 @@ public class RowOrColumn implements CellList {
         this.next = new NullRowOrColumn();
     }
 
+    public RowOrColumn() {
+        this(new NullRowOrColumn());
+    }
+
     @Override
     public void add(Cell cell) {
         cells.add(cell);
@@ -31,6 +35,11 @@ public class RowOrColumn implements CellList {
     @Override
     public CellList getPrevious() {
         return previous;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return true;
     }
 
     @Override

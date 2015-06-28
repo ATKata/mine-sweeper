@@ -18,4 +18,6 @@ public interface CellList {
     Collection<? extends Cell> getCells();
 
     CellList getPrevious();
+
+    boolean hasNext();
 }

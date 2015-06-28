@@ -31,6 +31,11 @@ public class NullRowOrColumn implements CellList {
         return new NullRowOrColumn();
     }
 
+    @Override
+    public boolean hasNext() {
+        return false;
+    }
+
 
     @Override
     public void add(Cell cell) {
